@@ -24,7 +24,12 @@ void render_prompt(RcFile *rc_file) {
     term.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
 
-    char *input = NULL;
+    char *input = malloc(sizeof(char) * 1024);
+    if (input == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+
     size_t input_size = 0;
 
     while (1) {
