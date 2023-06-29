@@ -6,6 +6,10 @@
 
 #include "paths/config.h"
 #include "config/zippyrc.h"
+#include "utils/str.h"
+#include "shell/chdir.h"
+#include "shell/eval.h"
+#include "shell/listener.h"
 
 void cleaning(char *config_path, char *config_content, RcFile *rc_file) {
     free(config_path);
@@ -93,7 +97,20 @@ void render_prompt(RcFile *rc_file) {
             continue;
         }
 
-        printf("\nYou entered: %s\n", input);
+        if (startswith(input, "cd")) {
+            printf("\n");
+
+            cd(
+                strlen(input) > 2 && startswith(input, "cd ")
+                    ? input
+                    : NULL
+            );
+
+            continue;
+        }
+
+        printf("\n");
+        eval(input);
         fflush(stdout);
     }
 

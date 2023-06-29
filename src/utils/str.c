@@ -12,3 +12,12 @@ char *strdup(const char* s) {
     strcpy(p, s);
     return p;
 }
+
+int startswith(const char *str, const char *prefix) {
+    size_t prefix_len = strlen(prefix);
+    if (strlen(str) < prefix_len) {
+        return 0;
+    }
+
+    return strncmp(str, prefix, prefix_len) == 0;
+}
